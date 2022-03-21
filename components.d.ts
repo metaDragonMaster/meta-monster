@@ -5,8 +5,11 @@
 declare module 'vue' {
   export interface GlobalComponents {
     BaseEmpty: typeof import('./src/components/baseEmpty/index.vue')['default']
+    BaseTab: typeof import('./src/components/BaseTab/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDrawer: typeof import('element-plus/es')['ElDrawer']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     NavPhDrawer: typeof import('./src/components/navPhDrawer/index.vue')['default']
     OpenIcon: typeof import('./src/components/navPhDrawer/openIcon.vue')['default']
   }

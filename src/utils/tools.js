@@ -161,3 +161,16 @@ export const fileToUrl = function(file) {
 	window.URL.revokeObjectURL(url);
 	return url;
 }
+
+/**
+ * 计算百分比
+ * @param   {number} num   分子
+ * @param   {number} total 分母
+ * @returns {number} 返回数百分比
+ */
+export function Percentage(num, total) { 
+    if (num == 0 || total == 0){
+        return 0;
+    }
+    return (Math.round(num / total * 10000) / 100.00);// 小数点后两位百分比
+}

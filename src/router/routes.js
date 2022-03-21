@@ -5,7 +5,7 @@ const routes = [
 		name: 'Layout',
 		component: Layout,
 		redirect: '/homepage',
-		children:[
+		children: [
 			{
 				path: '/homepage',
 				name: 'homepage',
@@ -40,6 +40,72 @@ const routes = [
 					title: "demo",
 				},
 				component: () => import('@/views/demo/index.vue'),
+			},
+			{
+				path: '/stockBonus',
+				name: 'stockBonus',
+				redirect: '/stockBonus/bonusView',
+				meta: {
+					title: "股票分红",
+					isNav: true,
+					private: true
+				},
+				component: () => import('@/views/stockBonus/index.vue'),
+				children: [
+					{
+						path: 'bonusView',
+						name: 'bonusView',
+						meta: {
+							title: "分红查看",
+						},
+						component: () => import('@/views/stockBonus/bonusView/index.vue'),
+					},
+					{
+						path: 'myProfit',
+						name: 'myProfit',
+						meta: {
+							title: "我的收益",
+						},
+						component: () => import('@/views/stockBonus/myProfit/index.vue'),
+					},
+					{
+						path: 'recruitDetails',
+						name: 'recruitDetails',
+						meta: {
+							title: "私募详情",
+						},
+						component: () => import('@/views/stockBonus/recruitDetails/index.vue'),
+					},
+				]
+			},
+			{
+				path: '/recommendReward',
+				name: 'recommendReward',
+				redirect: '/recommendReward/myInvite',
+				meta: {
+					title: "推荐奖励",
+					isNav: true,
+					private: true
+				},
+				component: () => import('@/views/recommendReward/index.vue'),
+				children: [
+					{
+						path: 'myInvite',
+						name: 'myInvite',
+						meta: {
+							title: "我的邀请",
+						},
+						component: () => import('@/views/recommendReward/myInvite/index.vue'),
+					},
+					{
+						path: 'recommendProfit',
+						name: 'recommendProfit',
+						meta: {
+							title: "推荐收益",
+						},
+						component: () => import('@/views/recommendReward/recommendProfit/index.vue'),
+					},
+				]
 			},
 		]
 	},

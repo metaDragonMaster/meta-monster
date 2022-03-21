@@ -6,14 +6,18 @@
                 <NavVue class="drawer-nav-list"></NavVue>
             </NavPhDrawer>
             <NavVue class="nav-list" v-show="isPc"></NavVue>
-            <ButtonLinkWeb3></ButtonLinkWeb3>
+            <!-- <ButtonLinkWeb3></ButtonLinkWeb3> -->
+            <Private>
+                <NavVue class="drawer-nav-list" :private="true"></NavVue>
+            </Private>
         </div>
     </div>
 </template>
 <script setup>
 import LogoVue from './logo.vue';
 import NavVue from './nav.vue';
-import ButtonLinkWeb3 from './buttonLinkWeb3.vue';
+// import ButtonLinkWeb3 from './buttonLinkWeb3.vue';
+import Private from './private.vue';
 import NavPhDrawer from '@/components/navPhDrawer';
 import { UseStoreResize } from "@/stores/window"
 import { storeToRefs } from 'pinia';
@@ -42,7 +46,8 @@ const { isPc } = storeToRefs(storeResize)
         display: flex;
     }
     .nav-list,
-    .nav-ph-drawer {
+    .nav-ph-drawer,
+    .private {
         :deep() .nav-link {
             padding-inline: 25px;
             margin-inline: 20px;
@@ -81,7 +86,8 @@ const { isPc } = storeToRefs(storeResize)
         }
     }
     // :deep()
-    .nav-ph-drawer {
+    .nav-ph-drawer,
+    .private {
         :deep() .el-drawer__body {
             background-color: #1f1d32;
         }

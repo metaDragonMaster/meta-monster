@@ -1,10 +1,6 @@
 <template>
-    <button class="button-link-web3">链接钱包</button>
+    <button class="button-link-web3">{{ $t('链接钱包') }}</button>
 </template>
-
-<script setup>
-
-</script>
 <style lang='scss' scoped>
 .button-link-web3 {
     $spacing: 4px;
@@ -23,7 +19,7 @@
         font-size: 16px;
     }
     @media screen and (max-width: 768px) {
-        margin-left: auto;
+        // margin-left: auto;
         width: 130px;
         height: 30px;
         font-size: 12px;

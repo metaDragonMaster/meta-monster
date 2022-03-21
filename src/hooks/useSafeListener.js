@@ -27,7 +27,7 @@ export function useSafeInterval(fn, wait = 1000) {
 export function useSafeListener(eventType, fn, useCapture = false) {
 	function add() {
 		window.addEventListener(eventType, fn, useCapture);
-		fn();
+		fn(document);
 	}
 	function remove() {
 		window.removeEventListener(eventType, fn, useCapture);

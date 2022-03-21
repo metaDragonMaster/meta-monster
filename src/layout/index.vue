@@ -21,13 +21,6 @@ useWindowResize(() => {
 	setClientWidth()
 })
 
-// const { width } = toRefs(useWindowResize())
-// const { width } = useWindowResize()
-// const WindowResize = useWindowResize()
-// const { scrollTopValue } = useWindowScroll()
-
-
-
 </script>
 <style lang="scss">
 @import "@/styles/index";

@@ -5,6 +5,7 @@ const i18n = createI18n({
   globalInjection:true,
   legacy: false, // you must specify 'legacy: false' option
   locale: startLanguage() || 'zh',
+  // locale: 'en',
   messages,
 });
 
