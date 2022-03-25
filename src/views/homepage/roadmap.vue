@@ -1,6 +1,6 @@
 <template>
     <div class="road-map" id="road" ref="roadMap">
-        <div class="centent" ref="centent">
+        <div class="centent" :style="cententStyle" ref="centent">
             <img class="po po-1" src="@/assets/road-map/position-1.png" />
             <p class="tx">路线图</p>
             <dl class="dl dl-1">
@@ -34,54 +34,124 @@
             </dl>
             <img class="po po-4" src="@/assets/road-map/position-4.png" />
         </div>
+        <div class="position-progress">
+            <div class="progress">
+                <img
+                    class="arrow"
+                    :style="arrowStyle"
+                    src="@/assets/road-map/progress-arrow.png"
+                    @mousedown="enterArrow"
+                    @mousemove="moveArrow"
+                    @mouseup="leverArrow"
+                    @mouseleave="leverArrow"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
+
+// import {
+//     useWindowResize
+// } from "@/hooks/useWindow"
+// import { throttle } from "lodash"
+import { UseStoreResize } from "@/stores/window"
+import { storeToRefs } from "pinia";
 import {
     ref,
-    // unref,
-    // computed,
-    watch,
-    // watchEffect,
+    unref,
+    computed,
     onMounted,
+    // watchEffect,
+    watch,
+    // nextTick,
 } from "vue"
-// import { useElementVisibility } from '@vueuse/core'
-import { useWindowScroll } from "@/hooks/useWindow"
-const { scrollTopValue } = useWindowScroll()
+// import { Percentage } from "@/utils/tools.js"
+// const { width } = useWindowResize()
+const storeResize = UseStoreResize()
+const { clientWidth } = storeToRefs(storeResize)
 const roadMap = ref();
 const centent = ref();
-
-// const visibility = useElementVisibility(roadMap)
-
+const lock = ref(false)
+async function enterArrow() {
+    lock.value = true
+}
+function leverArrow() {
+    lock.value = false
+}
+// console.log(clientWidth.value)
+const progress = ref(0);
+const arrowStyle = computed(() => ({
+    left: `${progress.value}%`
+}))
+const centenRight = ref(0)
+const cententStyle = computed(() => ({
+    right: `${centenRight.value}px`
+}))
+watch([progress,clientWidth],([nPro,nCw])=>{
+    const val = (3500 - nCw) / 100
+    const right = val * nPro
+    const max = 3500 - nCw
+    if(right >= max) {
+        centenRight.value = max
+    } else {
+        centenRight.value = right
+    }
+})
 onMounted(() => {
-    // console.dir(visibility.value);
-    // console.log(window.gsap)
-    // console.log(window.ScrollTrigger)
+    console.dir(centent.value.clientWidth);
 })
-// watch(() => visibility.value,()=>{
-//     console.dir(visibility.value);
-// })
-watch(()=> scrollTopValue.value, (nSt, oSt) => {
-    console.log(nSt, oSt);
-})
+const moveArrow = (el) => {
+    if (!lock.value) return;
+    if (el.movementX == 0) return;
+    // console.dir(el.movementX)
+    let isLeft = el.movementX == -1
+    const xAdd = 0.5;
+    const unV = unref(progress)
+    let val = isLeft ? unV - xAdd : unV + xAdd
+    if (val < 0) val = 0
+    else if (val > 100) val = 100
+    progress.value = val
+}
+
+// throttle(, 10, { leading: true })
 
 </script>
 <style lang='scss' scoped>
 .road-map {
-    height: 3500px;
-    width: 100%;
+    height: 1080px;
+    max-width: 1920px;
     position: relative;
-    // overflow: hidden;
-    overflow-x: scroll;
+    overflow: hidden;
+    // overflow-x: scroll;
+    .position-progress {
+        position: absolute;
+        bottom: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        .progress {
+            position: relative;
+            height: 1px;
+            width: 380px;
+            border-right: 120px solid #42dce0;
+            background-color: #42dce0;
+            box-shadow: 0px 0px 9px 1px #00f1ff;
+            .arrow {
+                position: absolute;
+                transform: translateY(-50%);
+                width: 120px;
+                height: 62px;
+                cursor: pointer;
+            }
+        }
+    }
     .centent {
         height: 100%;
         width: 3500px;
         // width: 100%;
         background-image: url("~@/assets/road-map/bg-map.png");
-        position: sticky;
-        top: 500px;
-        // right: calc(100vw - v-bind(percentage));
+        position: relative;
         .po,
         .tx,
         .dl {

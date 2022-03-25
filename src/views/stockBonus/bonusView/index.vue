@@ -22,6 +22,7 @@
 .bonus-view {
     display: flex;
     justify-content: center;
+    padding-bottom: 100px;
     @media screen and (min-width: 769px) {
         li:first-child {
             margin-right: 160px;

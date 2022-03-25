@@ -1,6 +1,6 @@
 <template>
     <div class="private-recruit-view">
-        <section class="theme-bg-view n-2 flex-column limit-max-width-media">
+        <section class="theme-bg-view n-1 flex-column limit-max-width-media">
             <div class="posi-pd">
                 <div class="posi-nft">
                     <p>
@@ -12,8 +12,36 @@
                         NFT单价：
                         <span>40USDT</span>
                     </p>
+                    <button @click="openBrowse">私募名单</button>
                 </div>
             </div>
+            <ThemeDialogBrowse ref="refBrowse">
+                <template v-slot:head>
+                    <div class="head">已参与私募地址:3333</div>
+                </template>
+                <template v-slot:default>
+                    <div class="table">
+                        <ul class="table-head">
+                            <li class="table-head__tr theme-text-shadow">钱包地址</li>
+                            <li class="table-head__tr theme-text-shadow">私募价值</li>
+                            <li class="table-head__tr theme-text-shadow">占股比例</li>
+                        </ul>
+                        <div class="hr"></div>
+                        <ul class="table-data">
+                            <li class="table-data__cells">
+                                <div class="cell">5s5x4a6sd5x4sdsa4xas4</div>
+                                <div class="cell">100000U</div>
+                                <div class="cell">22.22%</div>
+                            </li>
+                            <li class="table-data__cells">
+                                <div class="cell">5s5x4a6sd5x4sdsa4xas4</div>
+                                <div class="cell">100000U</div>
+                                <div class="cell">22.22%</div>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+            </ThemeDialogBrowse>
             <img class="title-image" v-show="i18nTypeIsZh" src="@/assets/homepage/title-s2.png" />
             <img class="title-image" v-show="!i18nTypeIsZh" src="@/assets/homepage/title-s2-ph.png" />
             <p class="text theme-text-shadow">{{ $t('首页.距预售结束') }}</p>
@@ -49,7 +77,7 @@
                 <span class="theme-text-shadow">{{ $t('首页.买入') }}</span>
             </button>
         </section>
-        <section class="theme-bg-view n-3 flex-column limit-max-width-media">
+        <section class="theme-bg-view n-2 flex-column limit-max-width-media">
             <img class="title-image" v-show="i18nTypeIsZh" src="@/assets/homepage/title-s3.png" />
             <img class="title-image" v-show="!i18nTypeIsZh" src="@/assets/homepage/title-s3-ph.png" />
             <div class="content">
@@ -66,7 +94,7 @@
                 <p class="theme-text-shadow">to the proportion of private purchases</p>
             </div>
         </section>
-        <section class="theme-bg-view n-4 flex-column limit-max-width-media">
+        <section class="theme-bg-view n-3 flex-column limit-max-width-media">
             <img class="title-image" v-show="i18nTypeIsZh" src="@/assets/homepage/title-s4.png" />
             <img class="title-image" v-show="!i18nTypeIsZh" src="@/assets/homepage/title-s4-ph.png" />
             <img src="@/assets/homepage/s4-b.png" alt />
@@ -76,7 +104,7 @@
                 <img src="@/assets/icons/icon-arrow-left.png" />
             </div>
         </section>
-        <section class="theme-bg-view n-5 limit-max-width-media">
+        <section class="theme-bg-view n-4 limit-max-width-media">
             <div>
                 <!-- <img :src="spActiveObj.active" alt /> -->
                 <img :src="spActiveImg" alt />
@@ -101,8 +129,9 @@
 </template>
 
 <script setup>
-
+import ThemeDialogBrowse from "@/components/themeDialog/browse.vue"
 import {
+    ref,
     computed,
     reactive,
     onMounted,
@@ -184,17 +213,16 @@ function useSafeInterval(fn, wait = 1000) {
 }
 function timeRun() {
     sp2.time = Format(new Date(), 'dd HH mm ss')
-    // console.log(sp2.time);
-    // let split = sp2.time.split(' ').map(item => item.split('')).toString().split(',').map(item => parseInt(item))
-    // console.log(split);
-    // console.log(flatten(split));
 }
-// const splitTime = computed(() => sp2.time.split(' ').map(item => item.split('')).toString().split(','))
 const splitTime = computed(() => sp2.time.split(' ').map(item => item.split('')))
 timeRun()
 useSafeInterval(timeRun)
 console.log(sp2);
 
+const refBrowse = ref()
+function openBrowse() {
+    refBrowse.value.open()
+}
 
 </script>
 
@@ -206,7 +234,103 @@ console.log(sp2);
 .title-image {
     margin-top: 65px;
 }
-.n-2 {
+.theme-dialog-browse {
+    .head {
+        color: #d4d4d4;
+        display: flex;
+        padding-left: 20px;
+        align-items: flex-end;
+        @media screen and (min-width: 1221px) {
+            font-size: 28px;
+        }
+        @media screen and (min-width: 769px) and (max-width: 1220px) {
+            font-size: 20px;
+        }
+        @media screen and (max-width: 768px) {
+            font-size: 16px;
+        }
+        @media screen and (max-width: 500px) {
+            font-size: 12px;
+        }
+    }
+    /*
+        <div class="table">
+            <ul class="table-head">
+                <li class="theme-text-shadow table-head__tr">钱包地址</li>
+                <li class="theme-text-shadow table-head__tr">私募价值</li>
+                <li class="theme-text-shadow table-head__tr">占股比例</li>
+            </ul>
+            <ul class="table-data">
+                <li class="table-data__cells">
+                    <div class="cell">5s5x4a6sd5x4sdsa4xas4</div>
+                    <div class="cell">100000U</div>
+                    <div class="cell">22.22%</div>
+                </li>
+                <li class="table-data__cells">
+                    <div class="cell">5s5x4a6sd5x4sdsa4xas4</div>
+                    <div class="cell">100000U</div>
+                    <div class="cell">22.22%</div>
+                </li>
+            </ul>
+        </div>
+    */
+    .table {
+        padding: 20px;
+        .table-head,
+        .table-data .table-data__cells {
+            display: flex;
+        }
+        .table-head__tr,
+        .cell {
+            flex: 1;
+            text-align: center;
+        }
+        .hr {
+            margin: 20px;
+            // width: 100%;
+            height: 4px;
+            background: linear-gradient(
+                225deg,
+                rgba(0, 241, 255, 0),
+                rgba(0, 241, 255, 0.24),
+                rgba(0, 241, 255, 0)
+            );
+            border-radius: 0px 0px 0px 0px;
+            opacity: 1;
+        }
+        .table-head {
+            .table-head__tr {
+                @media screen and (min-width: 769px) {
+                    font-size: 24px;
+                }
+                @media screen and (max-width: 768px) {
+                    font-size: 18px;
+                }
+                @media screen and (max-width: 500px) {
+                    font-size: 16px;
+                }
+            }
+        }
+        .table-data__cells {
+            margin: 20px 0;
+            .cell {
+                font-size: 14px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    // @media screen and (min-width: 1221px) {
+    // }
+    // @media screen and (min-width: 769px) and (max-width: 1220px) {
+    // }
+    // @media screen and (max-width: 768px) {
+    // }
+    // @media screen and (max-width: 500px) {
+    // }
+}
+.n-1 {
     .text {
         font-size: 30px;
         margin: 20px 0;
@@ -250,11 +374,21 @@ console.log(sp2);
         font-size: 14px;
         p {
             padding-bottom: 16px;
+            span {
+                font-size: 20px;
+                color: #00f1ff;
+                text-shadow: 0 0 8px #00f1ff;
+            }
         }
-        span {
-            font-size: 20px;
-            color: #00f1ff;
-            text-shadow: 0 0 8px #00f1ff;
+        button {
+            margin-top: 60px;
+            width: 100%;
+            height: 60px;
+            border-radius: 14px;
+            font-size: 24px;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba($color: #000000, $alpha: 0.6);
+            background: linear-gradient(90deg, #42dce0 0%, #f40bff 100%);
         }
     }
     .count-down {
@@ -349,7 +483,7 @@ console.log(sp2);
         }
     }
 }
-.n-3 {
+.n-2 {
     .content {
         max-width: 1120px;
         // background: url("~@/assets/homepage/nft-bg.png") center no-repeat;
@@ -397,7 +531,7 @@ console.log(sp2);
         }
     }
 }
-.n-4 {
+.n-3 {
     .end {
         display: flex;
         align-items: center;
@@ -421,7 +555,7 @@ console.log(sp2);
         }
     }
 }
-.n-5 {
+.n-4 {
     background: url("~@/assets/homepage/s5-bg.png") no-repeat;
     background-position: center;
     padding-bottom: 80px;
